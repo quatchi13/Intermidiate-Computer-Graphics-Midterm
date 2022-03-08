@@ -10,9 +10,9 @@ public:
 
 	Bullet() = default;
 	glm::vec3 BulletSpeed;
-
+	
 	virtual void Update(float deltaTime) override;
-
+	
 	virtual void RenderImGui() override;
 
 	virtual nlohmann::json ToJson() const override;

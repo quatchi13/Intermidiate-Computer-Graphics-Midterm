@@ -2,6 +2,7 @@
 #include "IComponent.h"
 #include "Gameplay/Physics/RigidBody.h"
 #include "Gameplay/Components/RenderComponent.h"
+#include "Gameplay/GameObject.h"
 
 class TextureChange : public Gameplay::IComponent {
 public:
@@ -16,7 +17,7 @@ public:
 	virtual void Update(float deltaTime) override;
 	void ColorChange(int lives);
 	void Damage();
-
+	
 public:
 	virtual void RenderImGui() override;
 	MAKE_TYPENAME(TextureChange);

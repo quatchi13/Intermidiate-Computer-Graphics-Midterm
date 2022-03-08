@@ -14,7 +14,7 @@ public:
 	virtual void Update(float deltaTime) override;
 
 	virtual void RenderImGui() override;
-
+	int count = 0;
 	virtual nlohmann::json ToJson() const override;
 	static Move::Sptr FromJson(const nlohmann::json& data);
 

@@ -14,9 +14,12 @@ void TriggerVolumeEnterBehaviour::OnTriggerVolumeEntered(const std::shared_ptr<G
 	LOG_INFO("Body has entered {} trigger volume: {}", GetGameObject()->Name, body->GetGameObject()->Name);
 	_playerInTrigger = true;
 
-	GetGameObject()->Get<TextureChange>()->Damage();
-}
+	if (body->GetGameObject()->Name == "Bullet")
+	{
+		GetGameObject()->Get<TextureChange>()->Damage();
 
+	}
+}
 void TriggerVolumeEnterBehaviour::OnTriggerVolumeLeaving(const std::shared_ptr<Gameplay::Physics::RigidBody>& body) {
 	LOG_INFO("Body has left {} trigger volume: {}", GetGameObject()->Name, body->GetGameObject()->Name);
 	_playerInTrigger = false;

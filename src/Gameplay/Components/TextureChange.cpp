@@ -121,6 +121,8 @@ void TextureChange::Damage()
 	else
 	{
 		GetGameObject()->SetPostion(glm::vec3(100, 100, 100));
+
+
 	}
 }
 

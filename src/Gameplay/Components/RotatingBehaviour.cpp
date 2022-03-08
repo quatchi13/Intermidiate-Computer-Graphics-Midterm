@@ -4,9 +4,11 @@
 
 #include "Utils/ImGuiHelper.h"
 #include "Utils/JsonGlmHelpers.h"
+#include "Gameplay/Components/RenderComponent.h"
+#include "Gameplay/Material.h"
 
 void RotatingBehaviour::Update(float deltaTime) {
-	GetGameObject()->SetRotation(GetGameObject()->GetRotationEuler() + RotationSpeed * deltaTime);
+	
 }
 
 void RotatingBehaviour::RenderImGui() {

@@ -16,8 +16,12 @@ void Move::Update(float deltaTime) {
 		GetGameObject()->SetPostion(GetGameObject()->GetPosition() + MoveSpeed * deltaTime);
 	}
 	
-	if (InputEngine::GetKeyState(GLFW_KEY_SPACE) == ButtonState::Pressed) {
-		GetGameObject()->GetChildren()[0]->SetPostion(glm::vec3(0,3,0));
+	if (count < 8)
+	{
+		if (InputEngine::GetKeyState(GLFW_KEY_SPACE) == ButtonState::Pressed) {
+			GetGameObject()->GetChildren()[0]->SetPostion(glm::vec3(0, 3, 0));
+			count++;
+		}
 	}
 }
 

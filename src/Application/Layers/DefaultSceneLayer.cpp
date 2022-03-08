@@ -170,6 +170,8 @@ void DefaultSceneLayer::_CreateScene()
 		Texture2D::Sptr    monkeyTex    = ResourceManager::CreateAsset<Texture2D>("textures/monkey-uvMap.png");
 		Texture2D::Sptr    leafTex      = ResourceManager::CreateAsset<Texture2D>("textures/leaves.png");
 		Texture2D::Sptr    spaceTex		= ResourceManager::CreateAsset<Texture2D>("textures/spacey.png");
+		Texture2D::Sptr    ammoTex = ResourceManager::CreateAsset<Texture2D>("textures/ammo.png");
+		Texture2D::Sptr    winTex = ResourceManager::CreateAsset<Texture2D>("textures/win.png");
 		leafTex->SetMinFilter(MinFilter::Nearest);
 		leafTex->SetMagFilter(MagFilter::Nearest);
 
@@ -215,6 +217,20 @@ void DefaultSceneLayer::_CreateScene()
 		{
 			spaceMaterial->Name = "Space";
 			spaceMaterial->Set("u_Material.Diffuse", spaceTex);
+			spaceMaterial->Set("u_Material.Shininess", 0.1f);
+		}
+
+		Material::Sptr ammoMaterial = ResourceManager::CreateAsset<Material>(basicShader);
+		{
+			spaceMaterial->Name = "ammo";
+			spaceMaterial->Set("u_Material.Diffuse", ammoTex);
+			spaceMaterial->Set("u_Material.Shininess", 0.1f);
+		}
+
+		Material::Sptr winMaterial = ResourceManager::CreateAsset<Material>(basicShader);
+		{
+			spaceMaterial->Name = "win";
+			spaceMaterial->Set("u_Material.Diffuse", winTex);
 			spaceMaterial->Set("u_Material.Shininess", 0.1f);
 		}
 
@@ -373,23 +389,7 @@ void DefaultSceneLayer::_CreateScene()
 			//scene->MainCamera = cam;
 		}
 
-		// Set up all our sample objects
-		GameObject::Sptr plane = scene->CreateGameObject("Plane");
-		{
-			// Make a big tiled mesh
-			MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-			tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(120.0f), glm::vec2(1.0f)));
-			tiledMesh->GenerateMesh();
-
-			// Create and attach a RenderComponent to the object to draw our mesh
-			RenderComponent::Sptr renderer = plane->Add<RenderComponent>();
-			renderer->SetMesh(tiledMesh);
-			renderer->SetMaterial(spaceMaterial);
-
-			// Attach a plane collider that extends infinitely along the X/Y axis
-			RigidBody::Sptr physics = plane->Add<RigidBody>(/*static by default*/);
-			physics->AddCollider(BoxCollider::Create(glm::vec3(50.0f, 50.0f, 1.0f)))->SetPosition({ 0,0,-1 });
-		}
+		
 
 		GameObject::Sptr invaderTwo = scene->CreateGameObject("Invader");
 		{
@@ -409,9 +409,6 @@ void DefaultSceneLayer::_CreateScene()
 
 		}
 
-
-
-
 		GameObject::Sptr bullet = scene->CreateGameObject("Bullet");
 		{
 
@@ -419,12 +416,18 @@ void DefaultSceneLayer::_CreateScene()
 			renderer->SetMesh(monkeyMesh);
 			renderer->SetMaterial(monkeyMaterial);
 
-				RigidBody::Sptr physics = bullet->Add<RigidBody>(RigidBodyType::Dynamic);
+			RigidBody::Sptr physics = bullet->Add<RigidBody>(RigidBodyType::Dynamic);
 			physics->AddCollider(BoxCollider::Create(glm::vec3(1.0f, 1.0f, 1.0f)))->SetPosition({ 0,0,0 });
 
 			Bullet::Sptr shoot = bullet->Add<Bullet>();
-			shoot->BulletSpeed = glm::vec3(0.0f,10.0f,0.0f);
+			shoot->BulletSpeed = glm::vec3(0.0f, 10.0f, 0.0f);
 		}
+
+		// Set up all our sample objects
+		
+
+
+		
 
 		GameObject::Sptr cannon = scene->CreateGameObject("Cannon");
 		{
@@ -434,15 +437,32 @@ void DefaultSceneLayer::_CreateScene()
 			renderer->SetMesh(monkeyMesh);
 			renderer->SetMaterial(monkeyMaterial);
 
-			
-
 			Move::Sptr move = cannon->Add<Move>();
 			move->MoveSpeed = glm::vec3(10, 0, 0);
 
 			cannon->AddChild(bullet);
 		}
 
-		
+		GameObject::Sptr plane = scene->CreateGameObject("Plane");
+		{
+			// Make a big tiled mesh
+			MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+			tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(120.0f), glm::vec2(1.0f)));
+			tiledMesh->GenerateMesh();
+
+			// Create and attach a RenderComponent to the object to draw our mesh
+			RenderComponent::Sptr renderer = plane->Add<RenderComponent>();
+			renderer->SetMesh(tiledMesh);
+			renderer->SetMaterial(spaceMaterial);
+
+			// Attach a plane collider that extends infinitely along the X/Y axis
+			RigidBody::Sptr physics = plane->Add<RigidBody>(/*static by default*/);
+			physics->AddCollider(BoxCollider::Create(glm::vec3(50.0f, 50.0f, 1.0f)))->SetPosition({ 0,0,-1 });
+
+			RotatingBehaviour::Sptr change = plane->Add<RotatingBehaviour>();
+
+			
+		}
 
 		
 		
