@@ -99,6 +99,9 @@
     <ClInclude Include="src\Application\Windows\TextureWindow.h">
       <Filter>Application\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gameplay\Components\Bullet.h">
+      <Filter>Gameplay\Components</Filter>
+    </ClInclude>
     <ClInclude Include="src\Gameplay\Components\Camera.h">
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
@@ -123,6 +126,9 @@
     <ClInclude Include="src\Gameplay\Components\MaterialSwapBehaviour.h">
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gameplay\Components\Move.h">
+      <Filter>Gameplay\Components</Filter>
+    </ClInclude>
     <ClInclude Include="src\Gameplay\Components\ParticleSystem.h">
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
@@ -133,6 +139,9 @@
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\Gameplay\Components\SimpleCameraControl.h">
+      <Filter>Gameplay\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gameplay\Components\TextureChange.h">
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\Gameplay\Components\TriggerVolumeEnterBehaviour.h">
@@ -306,9 +315,6 @@
     <ClInclude Include="src\Utils\Windows\FileDialogs.h">
       <Filter>Utils\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gameplay\Components\TextureChange.h" />
-    <ClInclude Include="src\Gameplay\Components\Move.h" />
-    <ClInclude Include="src\Gameplay\Components\Bullet.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application\Application.cpp">
@@ -353,6 +359,9 @@
     <ClCompile Include="src\Application\Windows\TextureWindow.cpp">
       <Filter>Application\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\Gameplay\Components\Bullet.cpp">
+      <Filter>Gameplay\Components</Filter>
+    </ClCompile>
     <ClCompile Include="src\Gameplay\Components\Camera.cpp">
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
@@ -374,6 +383,9 @@
     <ClCompile Include="src\Gameplay\Components\MaterialSwapBehaviour.cpp">
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
+    <ClCompile Include="src\Gameplay\Components\Move.cpp">
+      <Filter>Gameplay\Components</Filter>
+    </ClCompile>
     <ClCompile Include="src\Gameplay\Components\ParticleSystem.cpp">
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
@@ -384,6 +396,9 @@
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Gameplay\Components\SimpleCameraControl.cpp">
+      <Filter>Gameplay\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gameplay\Components\TextureChange.cpp">
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Gameplay\Components\TriggerVolumeEnterBehaviour.cpp">
@@ -519,8 +534,5 @@
       <Filter>Utils\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\entry_point.cpp" />
-    <ClCompile Include="src\Gameplay\Components\TextureChange.cpp" />
-    <ClCompile Include="src\Gameplay\Components\Move.cpp" />
-    <ClCompile Include="src\Gameplay\Components\Bullet.cpp" />
   </ItemGroup>
 </Project>
