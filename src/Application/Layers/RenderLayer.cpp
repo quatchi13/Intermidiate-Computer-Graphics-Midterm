@@ -94,7 +94,6 @@ void RenderLayer::OnRender(const Framebuffer::Sptr& prevLayer)
 	_frameUniforms->Update();
 
 	Material::Sptr defaultMat = app.CurrentScene()->DefaultMaterial;
-
 	// Render all our objects
 	app.CurrentScene()->Components().Each<RenderComponent>([&](const RenderComponent::Sptr& renderable) {
 		// Early bail if mesh not set
@@ -104,16 +103,23 @@ void RenderLayer::OnRender(const Framebuffer::Sptr& prevLayer)
 
 		// If we don't have a material, try getting the scene's fallback material
 		// If none exists, do not draw anything
-		if (renderable->GetMaterial() == nullptr) {
-			if (defaultMat != nullptr) {
-				renderable->SetMaterial(defaultMat);
-			} else {
-				return;
+
+		
+			if (renderable->GetMaterial() == nullptr) {
+				if (defaultMat != nullptr) {
+					renderable->SetMaterial(defaultMat);
+				}
+				else {
+					return;
+				}
 			}
-		}
+		
+
 
 		// If the material has changed, we need to bind the new shader and set up our material and frame data
 		// Note: This is a good reason why we should be sorting the render components in ComponentManager
+		
+		
 		if (renderable->GetMaterial() != currentMat) {
 			currentMat = renderable->GetMaterial();
 			shader = currentMat->GetShader();
@@ -121,7 +127,7 @@ void RenderLayer::OnRender(const Framebuffer::Sptr& prevLayer)
 			shader->Bind();
 			currentMat->Apply();
 		}
-
+		
 		// Grab the game object so we can do some stuff with it
 		GameObject* object = renderable->GetGameObject();
 

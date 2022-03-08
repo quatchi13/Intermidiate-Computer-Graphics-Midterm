@@ -167,8 +167,11 @@ void DefaultSceneLayer::_CreateScene()
 		Texture2D::Sptr    boxSpec      = ResourceManager::CreateAsset<Texture2D>("textures/box-specular.png");
 		Texture2D::Sptr    monkeyTex    = ResourceManager::CreateAsset<Texture2D>("textures/monkey-uvMap.png");
 		Texture2D::Sptr    leafTex      = ResourceManager::CreateAsset<Texture2D>("textures/leaves.png");
+		Texture2D::Sptr    spaceTex		= ResourceManager::CreateAsset<Texture2D>("textures/spacey.png");
 		leafTex->SetMinFilter(MinFilter::Nearest);
 		leafTex->SetMagFilter(MagFilter::Nearest);
+
+		
 
 
 		// Loading in a 1D LUT
@@ -204,6 +207,13 @@ void DefaultSceneLayer::_CreateScene()
 			boxMaterial->Name = "Box";
 			boxMaterial->Set("u_Material.Diffuse", boxTexture);
 			boxMaterial->Set("u_Material.Shininess", 0.1f);
+		}
+
+		Material::Sptr spaceMaterial = ResourceManager::CreateAsset<Material>(basicShader);
+		{
+			spaceMaterial->Name = "Space";
+			spaceMaterial->Set("u_Material.Diffuse", spaceTex);
+			spaceMaterial->Set("u_Material.Shininess", 0.1f);
 		}
 
 		// This will be the reflective material, we'll make the whole thing 90% reflective
@@ -346,10 +356,10 @@ void DefaultSceneLayer::_CreateScene()
 		// Set up the scene's camera
 		GameObject::Sptr camera = scene->MainCamera->GetGameObject()->SelfRef();
 		{
-			camera->SetPostion({ -9, -6, 15 });
-			camera->LookAt(glm::vec3(0.0f));
+			camera->SetPostion({ 1.241f, -24.591, 30.828 });
+			camera->SetRotation(glm::vec3(6.0f, 0.0f, 0.0f));
 
-			camera->Add<SimpleCameraControl>();
+			
 
 			// This is now handled by scene itself!
 			//Camera::Sptr cam = camera->Add<Camera>();
@@ -362,47 +372,59 @@ void DefaultSceneLayer::_CreateScene()
 		{
 			// Make a big tiled mesh
 			MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-			tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(20.0f)));
+			tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(120.0f), glm::vec2(1.0f)));
 			tiledMesh->GenerateMesh();
 
 			// Create and attach a RenderComponent to the object to draw our mesh
 			RenderComponent::Sptr renderer = plane->Add<RenderComponent>();
 			renderer->SetMesh(tiledMesh);
-			renderer->SetMaterial(boxMaterial);
+			renderer->SetMaterial(spaceMaterial);
 
 			// Attach a plane collider that extends infinitely along the X/Y axis
 			RigidBody::Sptr physics = plane->Add<RigidBody>(/*static by default*/);
 			physics->AddCollider(BoxCollider::Create(glm::vec3(50.0f, 50.0f, 1.0f)))->SetPosition({ 0,0,-1 });
 		}
 
-		
-		GameObject::Sptr invader = scene->CreateGameObject("Invader");
+		GameObject::Sptr invaderTwo = scene->CreateGameObject("Invader");
 		{
-			RenderComponent::Sptr renderer = invader->Add<RenderComponent>();
+			invaderTwo->SetPostion(glm::vec3(0, 0, 0));
+
+			RenderComponent::Sptr renderer = invaderTwo->Add<RenderComponent>();
 			renderer->SetMesh(invaderMesh);
 			renderer->SetMaterial(invaderMat);
 
-			TextureChange::Sptr inv = invader->Add<TextureChange>();
-		}
-
-		GameObject::Sptr mothership = scene->CreateGameObject("Mothership");
-		{
-			mothership->SetPostion(glm::vec3(3.0f, 3.0f, 1.0f));
-			mothership->Add<TextureChange>();
-		}
-		//mothership->AddChild(specBox);
-		
-
-		// Create a trigger volume for testing how we can detect collisions with objects!
-		GameObject::Sptr trigger = scene->CreateGameObject("Trigger");
-		{
-			TriggerVolume::Sptr volume = trigger->Add<TriggerVolume>();
-			CylinderCollider::Sptr collider = CylinderCollider::Create(glm::vec3(3.0f, 3.0f, 1.0f));
+			TextureChange::Sptr inv = invaderTwo->Add<TextureChange>();
+			TriggerVolume::Sptr volume = invaderTwo->Add<TriggerVolume>();
+			CylinderCollider::Sptr collider = CylinderCollider::Create(glm::vec3(2.0f, 2.0f, 1.0f));
 			collider->SetPosition(glm::vec3(0.0f, 0.0f, 0.5f));
 			volume->AddCollider(collider);
 
-			trigger->Add<TriggerVolumeEnterBehaviour>();
+			invaderTwo->Add<TriggerVolumeEnterBehaviour>();
+
 		}
+
+
+
+
+		GameObject::Sptr bullet = scene->CreateGameObject("Bullet");
+		{
+
+			RenderComponent::Sptr renderer = bullet->Add<RenderComponent>();
+			renderer->SetMesh(monkeyMesh);
+			renderer->SetMaterial(monkeyMaterial);
+
+				RigidBody::Sptr physics = bullet->Add<RigidBody>(RigidBodyType::Dynamic);
+			physics->AddCollider(BoxCollider::Create(glm::vec3(1.0f, 1.0f, 1.0f)))->SetPosition({ 0,0,-1 });
+
+		}
+
+		
+
+		
+		
+
+		
+		
 
 		/////////////////////////// UI //////////////////////////////
 		/*

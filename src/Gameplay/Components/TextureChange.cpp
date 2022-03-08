@@ -60,3 +60,18 @@ void TextureChange::ColorChange(int lives)
 {
 	_renderer->GetMaterial()->Set("u_InvaderMaterial.selection", lives);
 }
+
+void TextureChange::Damage()
+{
+	if (lives > 1)
+	{
+		lives--;
+		_renderer->GetMaterial()->Set("u_InvaderMaterial.selection", lives);
+	}
+	else
+	{
+		GetGameObject()->SetPostion(glm::vec3(100, 100, 100));
+	}
+}
+
+

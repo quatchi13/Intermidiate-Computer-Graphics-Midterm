@@ -15,6 +15,7 @@ public:
 	virtual void Awake() override;
 	virtual void Update(float deltaTime) override;
 	void ColorChange(int lives);
+	void Damage();
 
 public:
 	virtual void RenderImGui() override;
