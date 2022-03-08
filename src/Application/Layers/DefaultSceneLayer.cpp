@@ -386,6 +386,10 @@ void DefaultSceneLayer::_CreateScene()
 		}
 
 		GameObject::Sptr mothership = scene->CreateGameObject("Mothership");
+		{
+			mothership->SetPostion(glm::vec3(3.0f, 3.0f, 1.0f));
+			mothership->Add<TextureChange>();
+		}
 		//mothership->AddChild(specBox);
 		
 

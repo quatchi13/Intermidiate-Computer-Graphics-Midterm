@@ -52,6 +52,8 @@ void TextureChange::Update(float deltaTime)
 			std::cout << "THERE'S NO RENDERER!\n";
 		}
 	}
+
+	//GetGameObject()->GetScene()->Lights[0].Position = GetGameObject()->GetPosition;
 }
 
 void TextureChange::ColorChange(int lives)
