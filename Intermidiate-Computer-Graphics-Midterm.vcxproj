@@ -139,6 +139,7 @@
     <ClInclude Include="src\Gameplay\Components\RenderComponent.h" />
     <ClInclude Include="src\Gameplay\Components\RotatingBehaviour.h" />
     <ClInclude Include="src\Gameplay\Components\SimpleCameraControl.h" />
+    <ClInclude Include="src\Gameplay\Components\TextureChange.h" />
     <ClInclude Include="src\Gameplay\Components\TriggerVolumeEnterBehaviour.h" />
     <ClInclude Include="src\Gameplay\GameObject.h" />
     <ClInclude Include="src\Gameplay\InputEngine.h" />
@@ -223,6 +224,7 @@
     <ClCompile Include="src\Gameplay\Components\RenderComponent.cpp" />
     <ClCompile Include="src\Gameplay\Components\RotatingBehaviour.cpp" />
     <ClCompile Include="src\Gameplay\Components\SimpleCameraControl.cpp" />
+    <ClCompile Include="src\Gameplay\Components\TextureChange.cpp" />
     <ClCompile Include="src\Gameplay\Components\TriggerVolumeEnterBehaviour.cpp" />
     <ClCompile Include="src\Gameplay\GameObject.cpp" />
     <ClCompile Include="src\Gameplay\InputEngine.cpp" />

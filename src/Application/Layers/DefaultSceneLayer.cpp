@@ -46,6 +46,7 @@
 #include "Gameplay/Components/MaterialSwapBehaviour.h"
 #include "Gameplay/Components/TriggerVolumeEnterBehaviour.h"
 #include "Gameplay/Components/SimpleCameraControl.h"
+#include "Gameplay/Components/TextureChange.h"
 
 // Physics
 #include "Gameplay/Physics/RigidBody.h"
@@ -149,6 +150,13 @@ void DefaultSceneLayer::_CreateScene()
 			{ ShaderPartType::Fragment, "shaders/fragment_shaders/frag_multitextured.glsl" }
 		});
 		multiTextureShader->SetDebugName("Multitexturing");
+
+		//Shader used for invaders
+		ShaderProgram::Sptr invaderShader = ResourceManager::CreateAsset<ShaderProgram>(std::unordered_map<ShaderPartType, std::string>{
+			{ ShaderPartType::Vertex, "shaders/vertex_shaders/invader_vert.glsl" },
+			{ ShaderPartType::Fragment, "shaders/fragment_shaders/invader_frag.glsl" }
+		});
+		invaderShader->SetDebugName("Invader Shader");
 
 		// Load in the meshes
 		MeshResource::Sptr monkeyMesh = ResourceManager::CreateAsset<MeshResource>("Monkey.obj");
@@ -277,17 +285,54 @@ void DefaultSceneLayer::_CreateScene()
 			multiTextureMat->Set("u_Scale", 0.1f);
 		}
 
+		Material::Sptr invaderMat = ResourceManager::CreateAsset<Material>(invaderShader);
+		{
+			Texture2D::Sptr    invaderBlue = ResourceManager::CreateAsset<Texture2D>("textures/InvaderBlueTexture.png");
+			Texture2D::Sptr    invaderOrange = ResourceManager::CreateAsset<Texture2D>("textures/InvaderOrangeTexture.png");
+			Texture2D::Sptr    invaderPink = ResourceManager::CreateAsset<Texture2D>("textures/InvaderPinkTexture.png");
+			Texture2D::Sptr    invaderPurple = ResourceManager::CreateAsset<Texture2D>("textures/InvaderPurpleTexture.png");
+			Texture2D::Sptr    invaderRed = ResourceManager::CreateAsset<Texture2D>("textures/InvaderRedTexture.png");
+			Texture2D::Sptr    invaderYellow = ResourceManager::CreateAsset<Texture2D>("textures/InvaderYellowTexture.png");
+			invaderMat->Name = "InvaderMat";
+			invaderMat->Set("u_Material.Diffuse", invaderBlue);
+			invaderMat->Set("u_Material.Shininess", 0.5f);
+
+			invaderMat->Set("u_InvaderMaterial.blueDiffuse", invaderBlue);
+			invaderMat->Set("u_InvaderMaterial.redDiffuse", invaderRed);
+			invaderMat->Set("u_InvaderMaterial.pinkDiffuse", invaderPink);
+			invaderMat->Set("u_InvaderMaterial.pinkDiffuse", invaderPink);
+			invaderMat->Set("u_InvaderMaterial.purpleDiffuse", invaderPurple);
+			invaderMat->Set("u_InvaderMaterial.yellowDiffuse", invaderYellow);
+			invaderMat->Set("u_InvaderMaterial.orangeDiffuse", invaderOrange);
+
+			invaderMat->Set("u_InvaderMaterial.selection", 6); //defaults to blue texture
+		}
+
 		// Create some lights for our scene
-		scene->Lights.resize(3);
-		scene->Lights[0].Position = glm::vec3(0.0f, 1.0f, 3.0f);
-		scene->Lights[0].Color = glm::vec3(1.0f, 1.0f, 1.0f);
+		scene->Lights.resize(6);
+		scene->Lights[0].Position = glm::vec3(0.0f, -46.330f, 3.0f); //player homebase light //green middle
+		scene->Lights[0].Color = glm::vec3(0.0f, 1.0f, 0.0f);
 		scene->Lights[0].Range = 100.0f;
 
-		scene->Lights[1].Position = glm::vec3(1.0f, 0.0f, 3.0f);
-		scene->Lights[1].Color = glm::vec3(0.2f, 0.8f, 0.1f);
+		scene->Lights[1].Position = glm::vec3(1.0f, 0.0f, 3.0f); //enemy base //red middle
+		scene->Lights[1].Color = glm::vec3(1.0f, 0.0f, 0.0f);
+		scene->Lights[1].Range = 100.0f;
 
-		scene->Lights[2].Position = glm::vec3(0.0f, 1.0f, 3.0f);
-		scene->Lights[2].Color = glm::vec3(1.0f, 0.2f, 0.1f);
+		scene->Lights[2].Position = glm::vec3(-33.0f, 0.0f, 3.0f); //enemy base //red left
+		scene->Lights[2].Color = glm::vec3(1.0f, 0.0f, 0.0f);
+		scene->Lights[2].Range = 100.0f;
+
+		scene->Lights[3].Position = glm::vec3(33.0f, 0.0f, 3.0f); //enemy base //red right
+		scene->Lights[3].Color = glm::vec3(1.0f, 0.0f, 0.0f);
+		scene->Lights[3].Range = 100.0f;
+
+		scene->Lights[4].Position = glm::vec3(-33.0f, -46.330f, 3.0f); //player homebase //green left
+		scene->Lights[4].Color = glm::vec3(0.0f, 1.0f, 0.0f);
+		scene->Lights[4].Range = 100.0f;
+
+		scene->Lights[5].Position = glm::vec3(33.0f, -46.330f, 3.0f); //player homebase //green right
+		scene->Lights[5].Color = glm::vec3(0.0f, 1.0f, 0.0f);
+		scene->Lights[5].Range = 100.0f;
 
 		// We'll create a mesh that is a simple plane that we can resize later
 		MeshResource::Sptr planeMesh = ResourceManager::CreateAsset<MeshResource>();
@@ -335,7 +380,9 @@ void DefaultSceneLayer::_CreateScene()
 		{
 			RenderComponent::Sptr renderer = invader->Add<RenderComponent>();
 			renderer->SetMesh(invaderMesh);
-			renderer->SetMaterial(boxMaterial);
+			renderer->SetMaterial(invaderMat);
+
+			TextureChange::Sptr inv = invader->Add<TextureChange>();
 		}
 
 		GameObject::Sptr mothership = scene->CreateGameObject("Mothership");
