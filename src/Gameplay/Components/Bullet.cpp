@@ -1,26 +1,27 @@
-#include "Gameplay/Components/RotatingBehaviour.h"
+#include "Gameplay/Components/Bullet.h"
 
 #include "Gameplay/GameObject.h"
 
 #include "Utils/ImGuiHelper.h"
 #include "Utils/JsonGlmHelpers.h"
 
-void RotatingBehaviour::Update(float deltaTime) {
-	GetGameObject()->SetRotation(GetGameObject()->GetRotationEuler() + RotationSpeed * deltaTime);
+void Bullet::Update(float deltaTime) {
+	GetGameObject()->SetPostion(GetGameObject()->GetPosition() + BulletSpeed * deltaTime);
+	
 }
 
-void RotatingBehaviour::RenderImGui() {
-	LABEL_LEFT(ImGui::DragFloat3, "Speed", &RotationSpeed.x);
+void Bullet::RenderImGui() {
+	LABEL_LEFT(ImGui::DragFloat3, "Speed", &BulletSpeed.y);
 }
 
-nlohmann::json RotatingBehaviour::ToJson() const {
+nlohmann::json Bullet::ToJson() const {
 	return {
-		{ "speed", RotationSpeed }
+		{ "speed", BulletSpeed }
 	};
 }
 
-RotatingBehaviour::Sptr RotatingBehaviour::FromJson(const nlohmann::json& data) {
-	RotatingBehaviour::Sptr result = std::make_shared<RotatingBehaviour>();
-	result->RotationSpeed = JsonGet(data, "speed", result->RotationSpeed);
+Bullet::Sptr Bullet::FromJson(const nlohmann::json& data) {
+	Bullet::Sptr result = std::make_shared<Bullet>();
+	result->BulletSpeed = JsonGet(data, "speed", result->BulletSpeed);
 	return result;
 }

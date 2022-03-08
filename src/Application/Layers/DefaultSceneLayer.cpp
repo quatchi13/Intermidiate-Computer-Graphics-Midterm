@@ -47,6 +47,8 @@
 #include "Gameplay/Components/TriggerVolumeEnterBehaviour.h"
 #include "Gameplay/Components/SimpleCameraControl.h"
 #include "Gameplay/Components/TextureChange.h"
+#include "Gameplay/Components/Bullet.h"
+#include "Gameplay/Components/Move.h"
 
 // Physics
 #include "Gameplay/Physics/RigidBody.h"
@@ -418,8 +420,26 @@ void DefaultSceneLayer::_CreateScene()
 			renderer->SetMaterial(monkeyMaterial);
 
 				RigidBody::Sptr physics = bullet->Add<RigidBody>(RigidBodyType::Dynamic);
-			physics->AddCollider(BoxCollider::Create(glm::vec3(1.0f, 1.0f, 1.0f)))->SetPosition({ 0,0,-1 });
+			physics->AddCollider(BoxCollider::Create(glm::vec3(1.0f, 1.0f, 1.0f)))->SetPosition({ 0,0,0 });
 
+			Bullet::Sptr shoot = bullet->Add<Bullet>();
+			shoot->BulletSpeed = glm::vec3(0.0f,10.0f,0.0f);
+		}
+
+		GameObject::Sptr cannon = scene->CreateGameObject("Cannon");
+		{
+			cannon->SetPostion(glm::vec3(0, -45, 0));
+
+			RenderComponent::Sptr renderer = cannon->Add<RenderComponent>();
+			renderer->SetMesh(monkeyMesh);
+			renderer->SetMaterial(monkeyMaterial);
+
+			
+
+			Move::Sptr move = cannon->Add<Move>();
+			move->MoveSpeed = glm::vec3(10, 0, 0);
+
+			cannon->AddChild(bullet);
 		}
 
 		

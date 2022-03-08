@@ -127,6 +127,7 @@
     <ClInclude Include="src\Application\Windows\InspectorWindow.h" />
     <ClInclude Include="src\Application\Windows\MaterialsWindow.h" />
     <ClInclude Include="src\Application\Windows\TextureWindow.h" />
+    <ClInclude Include="src\Gameplay\Components\Bullet.h" />
     <ClInclude Include="src\Gameplay\Components\Camera.h" />
     <ClInclude Include="src\Gameplay\Components\ComponentManager.h" />
     <ClInclude Include="src\Gameplay\Components\GUI\GuiPanel.h" />
@@ -135,6 +136,7 @@
     <ClInclude Include="src\Gameplay\Components\IComponent.h" />
     <ClInclude Include="src\Gameplay\Components\JumpBehaviour.h" />
     <ClInclude Include="src\Gameplay\Components\MaterialSwapBehaviour.h" />
+    <ClInclude Include="src\Gameplay\Components\Move.h" />
     <ClInclude Include="src\Gameplay\Components\ParticleSystem.h" />
     <ClInclude Include="src\Gameplay\Components\RenderComponent.h" />
     <ClInclude Include="src\Gameplay\Components\RotatingBehaviour.h" />
@@ -213,6 +215,7 @@
     <ClCompile Include="src\Application\Windows\InspectorWindow.cpp" />
     <ClCompile Include="src\Application\Windows\MaterialsWindow.cpp" />
     <ClCompile Include="src\Application\Windows\TextureWindow.cpp" />
+    <ClCompile Include="src\Gameplay\Components\Bullet.cpp" />
     <ClCompile Include="src\Gameplay\Components\Camera.cpp" />
     <ClCompile Include="src\Gameplay\Components\GUI\GuiPanel.cpp" />
     <ClCompile Include="src\Gameplay\Components\GUI\GuiText.cpp" />
@@ -220,6 +223,7 @@
     <ClCompile Include="src\Gameplay\Components\IComponent.cpp" />
     <ClCompile Include="src\Gameplay\Components\JumpBehaviour.cpp" />
     <ClCompile Include="src\Gameplay\Components\MaterialSwapBehaviour.cpp" />
+    <ClCompile Include="src\Gameplay\Components\Move.cpp" />
     <ClCompile Include="src\Gameplay\Components\ParticleSystem.cpp" />
     <ClCompile Include="src\Gameplay\Components\RenderComponent.cpp" />
     <ClCompile Include="src\Gameplay\Components\RotatingBehaviour.cpp" />

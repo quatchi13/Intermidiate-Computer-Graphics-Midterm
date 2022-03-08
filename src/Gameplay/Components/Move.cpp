@@ -1,26 +1,38 @@
-#include "Gameplay/Components/RotatingBehaviour.h"
+#include "Gameplay/Components/Move.h"
 
 #include "Gameplay/GameObject.h"
 
 #include "Utils/ImGuiHelper.h"
 #include "Utils/JsonGlmHelpers.h"
+#include "Gameplay/InputEngine.h"
 
-void RotatingBehaviour::Update(float deltaTime) {
-	GetGameObject()->SetRotation(GetGameObject()->GetRotationEuler() + RotationSpeed * deltaTime);
+void Move::Update(float deltaTime) {
+	
+	if (InputEngine::GetKeyState(GLFW_KEY_LEFT) == ButtonState::Down) {
+		GetGameObject()->SetPostion(GetGameObject()->GetPosition() - MoveSpeed * deltaTime);
+	}
+
+	if (InputEngine::GetKeyState(GLFW_KEY_RIGHT) == ButtonState::Down) {
+		GetGameObject()->SetPostion(GetGameObject()->GetPosition() + MoveSpeed * deltaTime);
+	}
+	
+	if (InputEngine::GetKeyState(GLFW_KEY_SPACE) == ButtonState::Pressed) {
+		GetGameObject()->GetChildren()[0]->SetPostion(glm::vec3(0,3,0));
+	}
 }
 
-void RotatingBehaviour::RenderImGui() {
-	LABEL_LEFT(ImGui::DragFloat3, "Speed", &RotationSpeed.x);
+void Move::RenderImGui() {
+	LABEL_LEFT(ImGui::DragFloat3, "Speed", &MoveSpeed.x);
 }
 
-nlohmann::json RotatingBehaviour::ToJson() const {
+nlohmann::json Move::ToJson() const {
 	return {
-		{ "speed", RotationSpeed }
+		{ "speed", MoveSpeed }
 	};
 }
 
-RotatingBehaviour::Sptr RotatingBehaviour::FromJson(const nlohmann::json& data) {
-	RotatingBehaviour::Sptr result = std::make_shared<RotatingBehaviour>();
-	result->RotationSpeed = JsonGet(data, "speed", result->RotationSpeed);
+Move::Sptr Move::FromJson(const nlohmann::json& data) {
+	Move::Sptr result = std::make_shared<Move>();
+	result->MoveSpeed = JsonGet(data, "speed", result->MoveSpeed);
 	return result;
 }
