@@ -309,7 +309,7 @@ void DefaultSceneLayer::_CreateScene()
 		}
 
 		// Create some lights for our scene
-		scene->Lights.resize(6);
+		scene->Lights.resize(7);
 		scene->Lights[0].Position = glm::vec3(0.0f, -46.330f, 3.0f); //player homebase light //green middle
 		scene->Lights[0].Color = glm::vec3(0.0f, 1.0f, 0.0f);
 		scene->Lights[0].Range = 100.0f;
@@ -333,6 +333,10 @@ void DefaultSceneLayer::_CreateScene()
 		scene->Lights[5].Position = glm::vec3(33.0f, -46.330f, 3.0f); //player homebase //green right
 		scene->Lights[5].Color = glm::vec3(0.0f, 1.0f, 0.0f);
 		scene->Lights[5].Range = 100.0f;
+
+		scene->Lights[6].Position = glm::vec3(-40.0f, 0.0f, 3.0f); //starlight
+		scene->Lights[6].Color = glm::vec3(1.0f, 1.0f, 1.0f);
+		scene->Lights[6].Range = 70.0f;
 
 		// We'll create a mesh that is a simple plane that we can resize later
 		MeshResource::Sptr planeMesh = ResourceManager::CreateAsset<MeshResource>();
@@ -386,10 +390,7 @@ void DefaultSceneLayer::_CreateScene()
 		}
 
 		GameObject::Sptr mothership = scene->CreateGameObject("Mothership");
-		{
-			mothership->SetPostion(glm::vec3(3.0f, 3.0f, 1.0f));
-			mothership->Add<TextureChange>();
-		}
+		
 		//mothership->AddChild(specBox);
 		
 

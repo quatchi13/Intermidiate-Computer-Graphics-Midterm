@@ -34,7 +34,8 @@ TextureChange::Sptr TextureChange::FromJson(const nlohmann::json & blob) {
 	result->test = blob["test"];
 	return result;
 }
-
+float currentTime;
+float maxTime = 10.0f;
 void TextureChange::Update(float deltaTime)
 {
 	if (InputEngine::GetKeyState(GLFW_KEY_1) == ButtonState::Pressed) {
@@ -53,7 +54,56 @@ void TextureChange::Update(float deltaTime)
 		}
 	}
 
-	//GetGameObject()->GetScene()->Lights[0].Position = GetGameObject()->GetPosition;
+	GetGameObject()->GetScene()->Lights[0].Position = GetGameObject()->GetPosition();
+	GetGameObject()->GetScene()->SetupShaderAndLights();
+
+	if (InputEngine::GetKeyState(GLFW_KEY_2) == ButtonState::Pressed) {
+		std::cout << "2 was pressed\n";
+		std::cout << GetGameObject()->GetScene()->Lights[3].Position.x << " " << GetGameObject()->GetScene()->Lights[3].Position.y << "\n";
+
+	}
+
+	if (InputEngine::GetKeyState(GLFW_KEY_3) == ButtonState::Pressed) {
+		std::cout << "2 was pressed\n";
+		GetGameObject()->GetScene()->Lights[3].Position.x += 1.0f;
+		GetGameObject()->GetScene()->SetupShaderAndLights();
+
+	}
+
+	if (InputEngine::GetKeyState(GLFW_KEY_4) == ButtonState::Pressed)
+	{
+		for (int i = 0; i < 6; i++)
+		{
+			GetGameObject()->GetScene()->Lights[i].Range = 10;
+		}
+	}
+
+	if (InputEngine::GetKeyState(GLFW_KEY_5) == ButtonState::Pressed)
+	{
+		for (int i = 0; i < 6; i++)
+		{
+			GetGameObject()->GetScene()->Lights[i].Range = 100;
+		}
+	}
+
+	if (InputEngine::GetKeyState(GLFW_KEY_6) == ButtonState::Pressed)
+	{
+		GetGameObject()->GetScene()->Lights[6].Position.x += 10;
+	}
+
+	if (currentTime <= maxTime)
+	{
+		currentTime += deltaTime;
+		float t = currentTime / maxTime;
+		glm::vec3 test = lerp(glm::vec3(-40.f, 0.f, 3.f), glm::vec3(40.f, 0.f, 3.0f), t);
+		std::cout << test.x << " " << test.y << " " << test.z << "\n";
+		GetGameObject()->GetScene()->Lights[6].Position = test;
+	}
+	else
+	{
+		currentTime = 0.f;
+	}
+	
 }
 
 void TextureChange::ColorChange(int lives)
