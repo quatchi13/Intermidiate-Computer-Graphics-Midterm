@@ -152,6 +152,7 @@ void DefaultSceneLayer::_CreateScene()
 
 		// Load in the meshes
 		MeshResource::Sptr monkeyMesh = ResourceManager::CreateAsset<MeshResource>("Monkey.obj");
+		MeshResource::Sptr invaderMesh = ResourceManager::CreateAsset<MeshResource>("SpaceInvaderModel.obj");
 
 		// Load in some textures
 		Texture2D::Sptr    boxTexture   = ResourceManager::CreateAsset<Texture2D>("textures/box-diffuse.png");
@@ -330,6 +331,13 @@ void DefaultSceneLayer::_CreateScene()
 		}
 
 		
+		GameObject::Sptr invader = scene->CreateGameObject("Invader");
+		{
+			RenderComponent::Sptr renderer = invader->Add<RenderComponent>();
+			renderer->SetMesh(invaderMesh);
+			renderer->SetMaterial(boxMaterial);
+		}
+
 		GameObject::Sptr mothership = scene->CreateGameObject("Mothership");
 		//mothership->AddChild(specBox);
 		
